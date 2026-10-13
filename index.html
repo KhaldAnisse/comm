@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Tetris</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -36,6 +36,15 @@
       </ul>
     </aside>
   </main>
+  <div id="controls" aria-label="Commandes tactiles">
+    <button data-action="hold">⟲<small>Réserve</small></button>
+    <button data-action="rotate">↻<small>Tourner</small></button>
+    <button data-action="pause">Ⅱ<small>Pause</small></button>
+    <button data-action="left" data-repeat>◀</button>
+    <button data-action="down" data-repeat>▼</button>
+    <button data-action="right" data-repeat>▶</button>
+    <button data-action="drop" class="wide">⤓<small>Chute</small></button>
+  </div>
   <div id="overlay" hidden></div>
   <script src="tetris.js"></script>
 </body>

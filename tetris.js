@@ -328,6 +328,44 @@ document.addEventListener('keydown', e => {
   draw();
 });
 
+// Commandes tactiles : un appui = une action, appui long = répétition.
+const touchActions = {
+  left: () => move(-1),
+  right: () => move(1),
+  down: softDrop,
+  rotate: () => rotate(1),
+  drop: hardDrop,
+  hold,
+};
+
+document.querySelectorAll('#controls button').forEach(btn => {
+  let timer = null;
+  const stop = () => { clearTimeout(timer); clearInterval(timer); timer = null; };
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    const action = btn.dataset.action;
+    if (action === 'pause') { togglePause(); return; }
+    if (!running || paused) return;
+    touchActions[action]();
+    draw();
+    if (btn.hasAttribute('data-repeat')) {
+      timer = setTimeout(() => {
+        timer = setInterval(() => {
+          if (!running || paused) return stop();
+          touchActions[action]();
+          draw();
+        }, 60);
+      }, 200);
+    }
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => btn.addEventListener(t, stop));
+});
+
+// Appelée par l'application Android quand elle passe en arrière-plan.
+window.pauseGame = () => {
+  if (running && !paused) togglePause();
+};
+
 document.getElementById('start').addEventListener('click', e => {
   e.currentTarget.blur();
   start();
