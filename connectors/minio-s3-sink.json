@@ -1,0 +1,32 @@
+{
+  "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+  "tasks.max": "1",
+
+  "topics.regex": "shop\\.ecommerce\\.(cart_items|wishlists)",
+
+  "store.url": "http://minio:9000",
+  "s3.bucket.name": "bronze",
+  "s3.region": "us-east-1",
+  "s3.path.style.access.enabled": "true",
+  "topics.dir": "ecommerce",
+
+  "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+  "format.class": "io.confluent.connect.s3.format.json.JsonFormat",
+
+  "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
+  "path.format": "'year'=YYYY/'month'=MM/'day'=dd/'hour'=HH",
+  "partition.duration.ms": "3600000",
+  "timestamp.extractor": "Record",
+  "locale": "fr-FR",
+  "timezone": "UTC",
+
+  "flush.size": "50",
+  "rotate.schedule.interval.ms": "60000",
+
+  "behavior.on.null.values": "ignore",
+
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "key.converter.schemas.enable": "false",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": "false"
+}
